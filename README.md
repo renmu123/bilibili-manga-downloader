@@ -16,7 +16,9 @@ mc号为26742 章节号为334263
 图片解析部分来自 https://github.com/flaribbit/bilibili-manga-spider
 
 # TODOS
-- [ ] 支持连续下载
-- [ ] 支持文件设置 session_data
+- [x] 支持同时下载多个
+- [x] 支持文件设置 session_data
 - [ ] session 过期支持
-- [ ] 下载的照片格式命名
+- [x] 下载的照片格式命名
+- [ ] 未解锁的漫画下载提醒
+- [ ] 不进行重复下载

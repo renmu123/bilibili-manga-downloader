@@ -6,7 +6,7 @@ from io import BytesIO
 from pathlib import Path
 import requests
 from tenacity import retry, stop_after_attempt
-from loguru import logger
+from time import sleep
 from tqdm import tqdm
 from urllib3.exceptions import InsecureRequestWarning
 from typing import Literal, List
@@ -26,7 +26,7 @@ cookies = {}
 # TODO: 下载的照片格式命名
 
 
-@retry(stop=stop_after_attempt(3))
+# @retry(stop=stop_after_attempt(3))
 def download_image(url: str, path: str):
     r = requests.get(url, cookies=cookies, verify=False)
     with open(path, 'wb') as f:
@@ -85,7 +85,10 @@ def download(comic_id: int, mode: Literal["ep", "ord"], ids: List[int], sessdata
 
         for index, image_url in enumerate(tqdm(image_list), 1):
             full_url = get_token(image_url)
-            path = dir_path / f'{index}.jpg'
-            download_image(full_url, path)
+            path = dir_path / f'{index:04d}.jpg'
+            if not path.exists():
+                download_image(full_url, path)
+
+        sleep(1)
 
     print("下载完毕")

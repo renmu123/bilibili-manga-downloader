@@ -1,6 +1,7 @@
 from cleo import Application, Command
 from BilibiliMangaDownload import download
 from pathlib import Path
+from loguru import logger
 
 
 class Download(Command):
@@ -8,15 +9,18 @@ class Download(Command):
     bilibili 漫画下载命令行工具
 
     bili-comic-download
-        {comic_id : 想要下载的漫画mc号?}
-        {--m|mode? : 下载模式，ep: 根据ep_id来进行下载, ord: 根据顺序来进行下载?}
-        {--ids|ids?: ep_id 或者 ord_id}
-        {--s|sessdata?: 如果要下载已购买的漫画，这个参数是必要的}
+        {comicId : 想要下载的漫画mc号?}
+        {--m|mode= : 下载模式，ep: 根据ep_id来进行下载, ord: 根据顺序来进行下载?}
+        {--e|ids= : ep_id 或者 ord_id}
+        {--s|sessdata= : 如果要下载已购买的漫画，这个参数是必要的}
     """
 
     def handle(self):
-        comic_id = self.argument('comic_id')
-
+        try:
+            comic_id = int(self.argument('comicId'))
+        except ValueError as e:
+            self.line("comicId只能为数字")
+            raise e
         if mode := self.option('mode'):
             if mode not in {"ep", "ord"}:
                 mode = self.choice("选择你下载模式", ["ep", "ord"])
@@ -31,12 +35,14 @@ class Download(Command):
             for split_ids in ids.split(","):
                 split_id_array = split_ids.split("-")
                 if len(split_id_array) == 2:
-                    start, end = int(split_id_array.split("-")[0]), int(split_id_array.split("-")[1])
+                    start, end = int(split_id_array[0]), int(split_id_array[1])
                     id_array += [i for i in range(start, end + 1)]
                 else:
-                    id_array.append(split_id_array[0])
+                    id_array.append(int(split_id_array[0]))
         except Exception as e:
+            logger.error(str(e), ids, mode)
             self.line("输入的ids格式有误，请重新输入")
+            raise e
 
         sessdata = self.option("sessdata")
         if not sessdata:
