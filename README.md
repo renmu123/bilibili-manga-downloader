@@ -1,6 +1,24 @@
-# BilibiliMangaDownload
-bilibili漫画下载 下载手机端提示受限无法下载的漫画 付费内容可在购买登录后下载
+# 介绍
+bilibili 漫画批量下载，付费内容可在购买登录后下载
 
+# 安装
+## cli
+从 [release](https://github.com/renmu123/bilibili-manga-downloader/releases) 下载最新版cli
+```
+bili-comic-download.exe --help
+```
+
+## 源码
+```
+git clone https://github.com/renmu123/bilibili-manga-downloader
+cd bilibili-manga-downloader
+pip install -r requirements.txt
+python cli.py bili-comic-download --help
+```
+
+# 使用
+
+# 获取 sessdata
 运行后根据提示操作 例如漫画章节页url https://manga.bilibili.com/mc26742/334263 中
 
 mc号为26742 章节号为334263
@@ -19,6 +37,6 @@ mc号为26742 章节号为334263
 - [x] 支持同时下载多个
 - [x] 支持文件设置 session_data
 - [ ] session 过期支持
-- [x] 下载的照片格式命名
-- [ ] 未解锁的漫画下载提醒
+- [x] 下载的照片格式自动补位
+- [x] 未解锁的漫画下载提醒
 - [ ] 不进行重复下载

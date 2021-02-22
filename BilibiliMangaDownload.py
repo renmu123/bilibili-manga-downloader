@@ -26,7 +26,7 @@ cookies = {}
 # TODO: 下载的照片格式命名
 
 
-# @retry(stop=stop_after_attempt(3))
+@retry(stop=stop_after_attempt(3))
 def download_image(url: str, path: str):
     r = requests.get(url, cookies=cookies, verify=False)
     with open(path, 'wb') as f:
@@ -34,8 +34,11 @@ def download_image(url: str, path: str):
 
 
 def get_manga_info(comic_id: int):
-    data = requests.post(URL_DETAIL, data={'comic_id': comic_id}).json()['data']
-    return data['title'], data['ep_list']
+    r = requests.post(URL_DETAIL, data={'comic_id': comic_id}, cookies=cookies)
+    if r.status_code == 200:
+        return r.json()
+    else:
+        raise Exception("未找到该漫画ID")
 
 
 def get_images(comic_id: int, ep_id: int):
@@ -69,7 +72,10 @@ def download(comic_id: int, mode: Literal["ep", "ord"], ids: List[int], sessdata
     if not (Path.exists(Path("downloads"))):
         os.mkdir('downloads')
 
-    title, ep_list = get_manga_info(comic_id)
+    mange_info = get_manga_info(comic_id)
+    title = mange_info["data"]["title"]
+    ep_list = mange_info["data"]["ep_list"]
+
     print('[INFO]', title)
 
     if mode == "ep":
@@ -77,7 +83,14 @@ def download(comic_id: int, mode: Literal["ep", "ord"], ids: List[int], sessdata
     else:
         ep_data_list = [data for data in ep_list if data["ord"] in ids]
 
+    if len(ep_data_list) == 0:
+        print(f'[ERROR] 未找到相应章节')
+        return 0
     for ep_data in ep_data_list:
+        if ep_data["is_locked"]:
+            print(f"INFO 你尚未解锁第 {ep_data['short_title']} 话，无法下载")
+            continue
+
         image_list = get_images(comic_id, ep_data["id"])
         print(f'[INFO] 第 {ep_data["short_title"]} 话开始下载')
         dir_path = Path(f'downloads/{title}/{ep_data["short_title"] + ep_data["title"]}')

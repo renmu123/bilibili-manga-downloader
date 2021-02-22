@@ -23,14 +23,14 @@ class Download(Command):
             raise e
         if mode := self.option('mode'):
             if mode not in {"ep", "ord"}:
-                mode = self.choice("选择你下载模式", ["ep", "ord"])
+                mode = self.choice("1选择下载模式", ["ep", "ord"])
         else:
-            mode = self.choice("选择你下载模式", ["ep", "ord"])
+            mode = self.choice("选择下载模式", ["ep", "ord"])
 
         ids = self.option('ids')
         id_array = []
         if not ids:
-            ids = self.ask('请输入需要下载的漫画章节，支持用“,”分隔')
+            ids = self.ask('请输入需要下载的漫画章节，支持用“,”分隔：\n')
         try:
             for split_ids in ids.split(","):
                 split_id_array = split_ids.split("-")
@@ -51,12 +51,12 @@ class Download(Command):
                 with open(sessdata_path, "r") as f:
                     sessdata = f.read()
             else:
-                sessdata = self.ask('请输入sessdata，获取方式请查询文档')
+                sessdata = self.ask('请输入sessdata，获取方式请查询文档：\n')
 
         download(comic_id, mode, id_array, sessdata)
 
 
-application = Application()
+application = Application("bili-comic-download", "0.9")
 application.add(Download())
 
 if __name__ == '__main__':
