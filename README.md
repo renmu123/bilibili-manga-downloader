@@ -17,11 +17,23 @@ python cli.py bili-comic-download --help
 ```
 
 # 使用
+```
+bili-comic-download.exe bili-comic-download 35514
+# 35514 是某个 comic 的 id
+# 然后根据提示处理就可以了
+# 
+```
 
-# 获取 sessdata
+# 概念解释
+ep模式是指后面输入的 id 为漫画的章节号  
+ord模式是指后面输入的 id 为漫画的序号
+
+# 获取 comic_id & ep
 运行后根据提示操作 例如漫画章节页url https://manga.bilibili.com/mc26742/334263 中
 
 mc号为26742 章节号为334263
+
+# 获取 sessdata
 
 如要下载的内容中包含付费章节，则需输入SESSDATA，请按以下方式获取SESSDATA
 
@@ -30,6 +42,8 @@ mc号为26742 章节号为334263
 2.找到Cookie中的SESSDATA，复制其内容。
 
 ![image.png](https://i.loli.net/2020/10/26/RBhmXZdl9jJC7pw.png)
+
+**也可以在该 exe 文件夹下新建 sessdata.txt，将上诉的 sessdata 复制到其中，可以避免每次都要复制**
 
 图片解析部分来自 https://github.com/flaribbit/bilibili-manga-spider
 
