@@ -30,7 +30,8 @@ class Download(Command):
         ids = self.option('ids')
         id_array = []
         if not ids:
-            ids = self.ask('请输入需要下载的漫画章节，支持用“,”分隔：\n')
+            # TODO: ask 增加验证
+            ids = self.ask('请输入需要下载的漫画章节，支持用“,”分隔：\n > ')
         try:
             for split_ids in ids.split(","):
                 split_id_array = split_ids.split("-")
@@ -51,12 +52,12 @@ class Download(Command):
                 with open(sessdata_path, "r") as f:
                     sessdata = f.read()
             else:
-                sessdata = self.ask('请输入sessdata，获取方式请查询文档：\n')
+                sessdata = self.ask('请输入sessdata（如果下载的漫画无需登录即可下载，可以留空），获取方式请查询文档：\n > ')
 
         download(comic_id, mode, id_array, sessdata)
 
 
-application = Application("bili-comic-download", "0.9")
+application = Application("bili-comic-download", "0.91")
 application.add(Download())
 
 if __name__ == '__main__':

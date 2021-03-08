@@ -6,6 +6,12 @@ bilibili 漫画批量下载，付费内容可在购买登录后下载
 从 [release](https://github.com/renmu123/bilibili-manga-downloader/releases) 下载最新版cli
 ```
 bili-comic-download.exe --help
+
+# 下载漫画 id 为 27923 的 ep438701 话
+bili-comic-download.exe bili-comic-download 27923 --mode=ep --ids=438701
+
+# 下载漫画 id 为 25514 的第1-5和7话
+bili-comic-download.exe bili-comic-download 25514 --mode=ord --ids=1-5,7
 ```
 
 ## 源码
@@ -31,7 +37,10 @@ ord模式是指后面输入的 id 为漫画的序号
 # 获取 comic_id & ep
 运行后根据提示操作 例如漫画章节页url https://manga.bilibili.com/mc26742/334263 中
 
-mc号为26742 章节号为334263
+mc号（漫画id）为26742 章节号为334263
+
+## 啥是 ord？
+ord 理论上就是漫画的序号，比如第一话就是1，但有时候还会有作者的节日插画，我测试过《高木同学》的漫画，基本都是对应的，如果有不对应，欢迎提 issue
 
 # 获取 sessdata
 
@@ -43,7 +52,7 @@ mc号为26742 章节号为334263
 
 ![image.png](https://i.loli.net/2020/10/26/RBhmXZdl9jJC7pw.png)
 
-**也可以在该 exe 文件夹下新建 sessdata.txt，将上诉的 sessdata 复制到其中，可以避免每次都要复制**
+**也可以在该 exe 文件夹下新建 sessdata.txt，将上述的 sessdata 复制到其中，可以避免每次都要复制**
 
 图片解析部分来自 https://github.com/flaribbit/bilibili-manga-spider
 

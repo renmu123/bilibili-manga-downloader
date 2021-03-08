@@ -73,7 +73,7 @@ def download(comic_id: int, mode: Literal["ep", "ord"], ids: List[int], sessdata
         os.mkdir('downloads')
 
     mange_info = get_manga_info(comic_id)
-    title = mange_info["data"]["title"]
+    title = filter_str(mange_info["data"]["title"])
     ep_list = mange_info["data"]["ep_list"]
 
     print('[INFO]', title)
@@ -93,7 +93,7 @@ def download(comic_id: int, mode: Literal["ep", "ord"], ids: List[int], sessdata
 
         image_list = get_images(comic_id, ep_data["id"])
         print(f'[INFO] 第 {ep_data["short_title"]} 话开始下载')
-        dir_path = Path(f'downloads/{title}/{ep_data["short_title"] + ep_data["title"]}')
+        dir_path = Path(f'downloads/{title}/{filter_str(ep_data["short_title"]) + filter_str(ep_data["title"])}')
         dir_path.mkdir(parents=True, exist_ok=True)
 
         for index, image_url in enumerate(tqdm(image_list), 1):
